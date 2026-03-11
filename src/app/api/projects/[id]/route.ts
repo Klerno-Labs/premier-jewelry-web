@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/drizzle';
-import { projects } from '@/lib/db/schema';
+import { projects } from "@/lib/db/drizzle";
 import { eq } from 'drizzle-orm';
 import { updateProjectSchema } from '@/lib/validations/project';
 import { ZodError } from 'zod';

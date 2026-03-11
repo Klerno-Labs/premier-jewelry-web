@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/db";
-import { users, passwordResetTokens } from "@/db/schema";
+import { db } from "@/lib/db/drizzle";
+import { users, passwordResetTokens } from "@/lib/db/drizzle";
 import { forgotPasswordSchema } from "@/lib/validations";
 import { z } from "zod";
 import { eq } from "drizzle-orm";

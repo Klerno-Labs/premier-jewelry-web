@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { db } from '@/lib/db/drizzle';
-import { tasks } from '@/lib/db/schema';
+import { tasks } from "@/lib/db/drizzle";
 import { taskSchema, updateTaskSchema } from '@/lib/validations/task';
 import { eq } from 'drizzle-orm';
 

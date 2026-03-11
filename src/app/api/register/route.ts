@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/db";
-import { users } from "@/db/schema";
+import { db } from "@/lib/db/drizzle";
+import { users } from "@/lib/db/drizzle";
 import bcrypt from "bcryptjs";
 import { authRegisterSchema } from "@/lib/validations";
 import { z } from "zod";

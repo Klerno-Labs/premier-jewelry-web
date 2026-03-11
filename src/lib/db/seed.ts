@@ -1,5 +1,5 @@
 import { db } from '@/lib/db/drizzle';
-import { users, projects, tasks } from '@/lib/db/schema';
+import { users, projects, tasks } from "@/lib/db/drizzle";
 import { hash } from 'bcryptjs';
 
 async function seed() {

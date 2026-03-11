@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { db } from '@/lib/db/drizzle';
-import { projects } from '@/lib/db/schema';
+import { projects } from "@/lib/db/drizzle";
 import { projectSchema, updateProjectSchema } from '@/lib/validations/project';
 import { auth } from '@/auth'; // Assuming auth setup exists
 import { redirect } from 'next/navigation';

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db/drizzle';
-import { users, projects, tasks } from '@/lib/db/schema';
+import { users, projects, tasks } from "@/lib/db/drizzle";
 import { sql, eq, and } from 'drizzle-orm';
 
 // GET /api/dashboard/stats
