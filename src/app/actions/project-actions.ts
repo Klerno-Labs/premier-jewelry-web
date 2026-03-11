@@ -7,6 +7,7 @@ import { projectSchema, updateProjectSchema } from '@/lib/validations/project';
 import { auth } from '@/auth'; // Assuming auth setup exists
 import { redirect } from 'next/navigation';
 
+import { eq } from "drizzle-orm";
 export async function createProject(formData: FormData) {
   // In a real app, check auth here
   // const session = await auth();
