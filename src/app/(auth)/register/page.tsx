@@ -1,195 +1,91 @@
-"use client";
-
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, User, Mail, Lock, ArrowRight, CheckCircle2 } from "lucide-react";
-import { motion } from "framer-motion";
-import { authRegisterSchema, type AuthRegisterInput } from "@/lib/validations";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { UserPlus } from "lucide-react";
+
+export const metadata = {
+  title: "Register | Pegrio App",
+  description: "Create a new account",
+};
 
 export default function RegisterPage() {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [apiError, setApiError] = useState<string | null>(null);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<AuthRegisterInput>({
-    resolver: zodResolver(authRegisterSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
-  });
-
-  const onSubmit = async (data: AuthRegisterInput) => {
-    setIsLoading(true);
-    setApiError(null);
-
-    try {
-      const response = await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          password: data.password,
-        }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        setApiError(result.error || "Failed to create account");
-        setIsLoading(false);
-        return;
-      }
-
-      // Redirect to login on success
-      router.push("/login?registered=true");
-    } catch (err) {
-      setApiError("Something went wrong. Please try again.");
-      setIsLoading(false);
-    }
-  };
-
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="w-full max-w-md"
-    >
-      <Card className="border-0 shadow-xl">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
+      <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1 text-center">
-          <div className="flex justify-center mb-2">
-            <div className="h-12 w-12 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">
-              P
-            </div>
+          <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+            <UserPlus className="h-6 w-6 text-primary" />
           </div>
-          <CardTitle className="text-2xl font-bold tracking-tight text-gray-900">
-            Create an account
-          </CardTitle>
-          <CardDescription className="text-gray-600">
-            Enter your information to get started with Pegrio
+          <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
+          <CardDescription>
+            Enter your details to get started with Pegrio App
           </CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <CardContent className="space-y-4">
-            {apiError && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                className="bg-red-50 border border-red-200 rounded-md p-3 text-sm text-red-800"
-              >
-                {apiError}
-              </motion.div>
-            )}
-
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <div className="relative">
-                <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                <Input
-                  id="name"
-                  placeholder="John Doe"
-                  autoComplete="name"
-                  className={cn("pl-9", errors.name && "border-red-500")}
-                  {...register("name")}
-                />
-              </div>
-              {errors.name && (
-                <p className="text-xs text-red-500">{errors.name.message}</p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                <Input
-                  id="email"
-                  placeholder="name@company.com"
-                  type="email"
-                  autoComplete="email"
-                  className={cn("pl-9", errors.email && "border-red-500")}
-                  {...register("email")}
-                />
-              </div>
-              {errors.email && (
-                <p className="text-xs text-red-500">{errors.email.message}</p>
-              )}
-            </div>
-
+        <CardContent>
+          <form className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <Input
-                    id="password"
-                    type="password"
-                    autoComplete="new-password"
-                    className={cn("pl-9", errors.password && "border-red-500")}
-                    {...register("password")}
-                  />
-                </div>
-                {errors.password && (
-                  <p className="text-xs text-red-500">{errors.password.message}</p>
-                )}
+                <label htmlFor="firstName" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  First Name
+                </label>
+                <Input id="firstName" placeholder="John" required />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm</Label>
-                <div className="relative">
-                  <CheckCircle2 className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <Input
-                    id="confirmPassword"
-                    type="password"
-                    autoComplete="new-password"
-                    className={cn("pl-9", errors.confirmPassword && "border-red-500")}
-                    {...register("confirmPassword")}
-                  />
-                </div>
-                {errors.confirmPassword && (
-                  <p className="text-xs text-red-500">{errors.confirmPassword.message}</p>
-                )}
+                <label htmlFor="lastName" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  Last Name
+                </label>
+                <Input id="lastName" placeholder="Doe" required />
               </div>
             </div>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Creating account...
-                </>
-              ) : (
-                <>
-                  Create account
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </>
-              )}
+            <div className="space-y-2">
+              <label htmlFor="email" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Work Email
+              </label>
+              <Input id="email" type="email" placeholder="john@company.com" required />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="password" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Password
+              </label>
+              <Input id="password" type="password" placeholder="Create a strong password" required />
+            </div>
+            
+             {/* Honeypot field for spam protection */}
+             <input type="text" name="fax" className="hidden" tabIndex={-1} autoComplete="off" />
+
+            <Button type="submit" className="w-full">
+              Create Account
             </Button>
-            <p className="text-sm text-gray-600">
-              Already have an account?{" "}
-              <Link href="/login" className="font-medium text-blue-600 hover:text-blue-500 hover:underline">
-                Sign in
-              </Link>
-            </p>
-          </CardFooter>
-        </form>
+          </form>
+        </CardContent>
+        <CardFooter className="flex flex-col gap-2">
+          <p className="text-center text-sm text-muted-foreground">
+            Already have an account?{" "}
+            <Link href="/login" className="text-primary font-medium hover:underline">
+              Sign in
+            </Link>
+          </p>
+          <p className="text-center text-xs text-muted-foreground">
+            By clicking continue, you agree to our{" "}
+            <Link href="/terms" className="underline hover:text-primary">
+              Terms of Service
+            </Link>{" "}
+            and{" "}
+            <Link href="/privacy" className="underline hover:text-primary">
+              Privacy Policy
+            </Link>
+            .
+          </p>
+        </CardFooter>
       </Card>
-    </motion.div>
+    </div>
   );
 }
