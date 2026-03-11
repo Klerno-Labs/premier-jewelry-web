@@ -2,95 +2,102 @@ import { relations } from "drizzle-orm";
 import {
   index,
   integer,
-  pgTable,
+  pgTableCreator,
   serial,
   text,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
 
-export const users = pgTable("user", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  name: text("name"),
-  email: text("email").notNull(),
-  emailVerified: timestamp("emailVerified", { mode: "date" }),
-  image: text("image"),
-  password: text("password"),
-  role: text("role", { enum: ["user", "admin", "manager"] })
-    .notNull()
-    .default("user"),
-  createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
-  updatedAt: timestamp("updated_at", { mode: "date" }),
-});
+export const createTable = pgTableCreator((name) => `pegrio_${name}`);
 
-export const accounts = pgTable(
-  "account",
+export const users = createTable(
+  "user",
   {
-    userId: text("user_id")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    type: text("type").notNull(),
-    provider: text("provider").notNull(),
-    providerAccountId: text("provider_account_id").notNull(),
-    refresh_token: text("refresh_token"),
-    access_token: text("access_token"),
-    expires_at: integer("expires_at"),
-    token_type: text("token_type"),
-    scope: text("scope"),
-    id_token: text("id_token"),
-    session_state: text("session_state"),
+    id: serial("id").primaryKey(),
+    name: varchar("name", { length: 255 }),
+    email: varchar("email", { length: 255 }).notNull().unique(),
+    emailVerified: timestamp("emailVerified", { mode: "date" }),
+    image: varchar("image", { length: 255 }),
+    password: varchar("password", { length: 255 }),
+    role: varchar("role", { length: 50 }).notNull().default("user"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
-  (account) => ({
-    compoundKey: index("account_provider_provider_account_id_key").on(
-      account.provider,
-      account.providerAccountId
-    ),
+  (user) => ({
+    emailIdx: index("user_email_idx").on(user.email),
   })
 );
 
-export const sessions = pgTable("session", {
-  sessionToken: text("session_token").primaryKey(),
-  userId: text("user_id")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  expires: timestamp("expires", { mode: "date" }).notNull(),
-});
+export const accounts = createTable(
+  "account",
+  {
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    type: varchar("type", { length: 255 })
+      .$type<"email" | "oauth" | "oidc">()
+      .notNull(),
+    provider: varchar("provider", { length: 255 }).notNull(),
+    providerAccountId: varchar("provider_account_id", { length: 255 }).notNull(),
+    refresh_token: text("refresh_token"),
+    access_token: text("access_token"),
+    expires_at: integer("expires_at"),
+    token_type: varchar("token_type", { length: 255 }),
+    scope: varchar("scope", { length: 255 }),
+    id_token: text("id_token"),
+    session_state: varchar("session_state", { length: 255 }),
+  },
+  (account) => ({
+    compositePk: index("account_provider_providerAccountId_key").on(
+      account.provider,
+      account.providerAccountId
+    ),
+    userIdIdx: index("account_user_id_idx").on(account.userId),
+  })
+);
 
-export const verificationTokens = pgTable(
+export const sessions = createTable(
+  "session",
+  {
+    sessionToken: varchar("session_token", { length: 255 }).notNull().primaryKey(),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    expires: timestamp("expires", { mode: "date" }).notNull(),
+  },
+  (session) => ({
+    userIdIdx: index("session_user_id_idx").on(session.userId),
+  })
+);
+
+export const verificationTokens = createTable(
   "verification_token",
   {
-    identifier: text("identifier").notNull(),
-    token: text("token").notNull(),
+    identifier: varchar("identifier", { length: 255 }).notNull(),
+    token: varchar("token", { length: 255 }).notNull().primaryKey(),
     expires: timestamp("expires", { mode: "date" }).notNull(),
   },
   (vt) => ({
-    compoundKey: index("verification_token_identifier_token_key").on(
+    compositePk: index("verification_token_identifier_token_idx").on(
       vt.identifier,
       vt.token
     ),
   })
 );
 
-export const projects = pgTable("projects", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  description: text("description"),
-  status: text("status", { enum: ["active", "pending", "completed"] })
-    .notNull()
-    .default("pending"),
-  dueDate: timestamp("due_date", { mode: "date" }),
-  ownerId: text("owner_id")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
-  updatedAt: timestamp("updated_at", { mode: "date" }),
-});
-
-export const projectRelations = relations(projects, ({ one }) => ({
-  owner: one(users, {
-    fields: [projects.ownerId],
-    references: [users.id],
-  }),
-}));
+export const passwordResetTokens = createTable(
+  "password_reset_token",
+  {
+    id: serial("id").primaryKey(),
+    token: varchar("token", { length: 255 }).notNull().unique(),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    expires: timestamp("expires", { mode: "date" }).notNull(),
+  },
+  (prt) => ({
+    userIdIdx: index("password_reset_token_user_id_idx").on(prt.userId),
+    tokenIdx: index("password_reset_token_token_idx").on(prt.token),
+  })
+);

@@ -1,27 +1,32 @@
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Login | Pegrio App",
+  description: "Access your Pegrio dashboard",
+};
+
 export default function AuthLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <div className="grid min-h-screen lg:grid-cols-2">
-      <div className="hidden lg:flex flex-col justify-between bg-gray-900 p-12 text-white">
-        <div className="text-2xl font-bold">Pegrio</div>
-        <div>
-          <h2 className="text-3xl font-bold mb-4">
-            "Pegrio transformed our workflow completely."
-          </h2>
-          <p className="text-gray-400">
-            Join thousands of teams managing their business with Pegrio.
-          </p>
+    <html lang="en">
+      <body className={inter.className}>
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+          {/* Background decoration */}
+          <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+             <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-blue-100 blur-3xl opacity-60" />
+             <div className="absolute top-[30%] -right-[10%] w-[40%] h-[40%] rounded-full bg-purple-100 blur-3xl opacity-60" />
+          </div>
+          
+          {children}
         </div>
-        <div className="text-sm text-gray-500">
-          &copy; {new Date().getFullYear()} Pegrio Inc.
-        </div>
-      </div>
-      <div className="flex items-center justify-center p-8">
-        <div className="w-full max-w-md">{children}</div>
-      </div>
-    </div>
+      </body>
+    </html>
   );
 }
