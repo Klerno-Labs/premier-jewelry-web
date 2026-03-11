@@ -1,23 +1,18 @@
-import { Metadata } from 'next';
-import './globals.css';
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { cn } from "@/lib/utils";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Pegrio App',
-  description: 'A custom application built for business needs.',
+  metadataBase: new URL("https://pegrio.app"),
+  title: "Pegrio | Project Management Platform",
+  description: "Manage your projects and team with Pegrio. The modern growth platform for teams.",
   openGraph: {
-    title: 'Pegrio App',
-    description: 'A custom application built for business needs.',
-    url: 'https://yourdomain.com',
-    siteName: 'Pegrio App',
-    images: [
-      {
-        url: 'https://yourdomain.com/logo.png',
-        width: 800,
-        height: 600,
-      },
-    ],
-    locale: 'en_US',
-    type: 'website',
+    title: "Pegrio",
+    description: "Manage your projects and team with Pegrio.",
+    type: "website",
   },
 };
 
@@ -28,7 +23,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={cn(inter.className, "antialiased min-h-screen bg-gray-50 text-gray-900")}>
+        {children}
+      </body>
     </html>
   );
 }

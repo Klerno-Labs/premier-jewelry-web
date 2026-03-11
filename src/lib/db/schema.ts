@@ -1,93 +1,76 @@
-import { pgTable, serial, text, timestamp, boolean, integer, pgEnum } from 'drizzle-orm/pg-core';
-import { relations } from 'drizzle-orm';
+import { relations } from "drizzle-orm";
+import {
+  index,
+  integer,
+  pgTableCreator,
+  serial,
+  text,
+  timestamp,
+  varchar,
+  boolean,
+} from "drizzle-orm/pg-core";
 
-export const userRoleEnum = pgEnum('user_role', ['admin', 'manager', 'user']);
-export const projectStatusEnum = pgEnum('project_status', ['planning', 'active', 'on_hold', 'completed', 'archived']);
-export const taskStatusEnum = pgEnum('task_status', ['backlog', 'todo', 'in_progress', 'review', 'done']);
-export const taskPriorityEnum = pgEnum('task_priority', ['low', 'medium', 'high', 'urgent']);
+export const createTable = pgTableCreator((name) => `pegrio_${name}`);
 
-export const users = pgTable('users', {
-  id: serial('id').primaryKey(),
-  name: text('name').notNull(),
-  email: text('email').notNull().unique(),
-  password: text('password').notNull(),
-  role: userRoleEnum('role').notNull().default('user'),
-  avatarUrl: text('avatar_url'),
-  isActive: boolean('is_active').notNull().default(true),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+export const users = createTable(
+  "user",
+  {
+    id: serial("id").primaryKey(),
+    name: varchar("name", { length: 256 }),
+    email: varchar("email", { length: 256 }).notNull().unique(),
+    password: varchar("password", { length: 256 }),
+    role: varchar("role", { length: 50 })
+      .notNull()
+      .default("user"),
+    image: varchar("image", { length: 256 }),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (user) => ({
+    emailIdx: index("user_email_idx").on(user.email),
+  })
+);
+
+export const projects = createTable(
+  "project",
+  {
+    id: serial("id").primaryKey(),
+    name: varchar("name", { length: 256 }).notNull(),
+    description: text("description"),
+    status: varchar("status", { length: 50 }).notNull().default("active"),
+    ownerId: integer("owner_id")
+      .references(() => users.id)
+      .notNull(),
+    budget: integer("budget").default(0),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (project) => ({
+    ownerIdIdx: index("project_owner_id_idx").on(project.ownerId),
+  })
+);
+
+export const tasks = createTable(
+  "task",
+  {
+    id: serial("id").primaryKey(),
+    projectId: integer("project_id")
+      .references(() => projects.id, { onDelete: "cascade" })
+      .notNull(),
+    title: varchar("title", { length: 256 }).notNull(),
+    status: varchar("status", { length: 50 }).notNull().default("todo"),
+    dueDate: timestamp("due_date"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (task) => ({
+    projectIdIdx: index("task_project_id_idx").on(task.projectId),
+  })
+);
+
+export const sessions = createTable("session", {
+  id: text("id").primaryKey(),
+  userId: integer("user_id")
+    .references(() => users.id, { onDelete: "cascade" })
+    .notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
 });
-
-export const projects = pgTable('projects', {
-  id: serial('id').primaryKey(),
-  name: text('name').notNull(),
-  description: text('description'),
-  status: projectStatusEnum('status').notNull().default('planning'),
-  ownerId: integer('owner_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
-  dueDate: timestamp('due_date'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at').notNull().defaultNow(),
-});
-
-export const tasks = pgTable('tasks', {
-  id: serial('id').primaryKey(),
-  title: text('title').notNull(),
-  description: text('description'),
-  status: taskStatusEnum('status').notNull().default('todo'),
-  priority: taskPriorityEnum('priority').notNull().default('medium'),
-  projectId: integer('project_id').notNull().references(() => projects.id, { onDelete: 'cascade' }),
-  assignedToId: integer('assigned_to_id').references(() => users.id, { onDelete: 'set null' }),
-  dueDate: timestamp('due_date'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at').notNull().defaultNow(),
-});
-
-export const auditLogs = pgTable('audit_logs', {
-  id: serial('id').primaryKey(),
-  userId: integer('user_id').notNull().references(() => users.id),
-  action: text('action').notNull(), // e.g., 'create_project', 'update_task'
-  entityType: text('entity_type').notNull(), // e.g., 'project', 'task'
-  entityId: integer('entity_id').notNull(),
-  metadata: text('metadata'), // JSON string for old/new values
-  timestamp: timestamp('timestamp').notNull().defaultNow(),
-});
-
-export const usersRelations = relations(users, ({ many }) => ({
-  ownedProjects: many(projects),
-  assignedTasks: many(tasks),
-  auditLogs: many(auditLogs),
-}));
-
-export const projectsRelations = relations(projects, ({ one, many }) => ({
-  owner: one(users, {
-    fields: [projects.ownerId],
-    references: [users.id],
-  }),
-  tasks: many(tasks),
-}));
-
-export const tasksRelations = relations(tasks, ({ one }) => ({
-  project: one(projects, {
-    fields: [tasks.projectId],
-    references: [projects.id],
-  }),
-  assignee: one(users, {
-    fields: [tasks.assignedToId],
-    references: [users.id],
-  }),
-}));
-
-export const auditLogsRelations = relations(auditLogs, ({ one }) => ({
-  user: one(users, {
-    fields: [auditLogs.userId],
-    references: [users.id],
-  }),
-}));
-
-export type User = typeof users.$inferSelect;
-export type NewUser = typeof users.$inferInsert;
-export type Project = typeof projects.$inferSelect;
-export type NewProject = typeof projects.$inferInsert;
-export type Task = typeof tasks.$inferSelect;
-export type NewTask = typeof tasks.$inferInsert;
-export type AuditLog = typeof auditLogs.$inferSelect;
