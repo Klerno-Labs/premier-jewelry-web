@@ -1,4 +1,4 @@
-import { db } from '@/lib/db';
+import { db } from "@/lib/db/drizzle";
 import { User } from '@/types/user.types';
 
 export const fetchUsers = async (): Promise<User[]> => {
