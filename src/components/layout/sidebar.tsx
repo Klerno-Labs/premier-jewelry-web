@@ -106,7 +106,7 @@ export function Sidebar({ isCollapsed, toggleSidebar }: SidebarProps) {
         </nav>
         <div className="border-t p-4">
           <div className={cn("text-xs text-muted-foreground", isCollapsed && "text-center")}>
-            {!isCollapsed ? &quot;© 2024 Pegrio Inc." : "©24"}
+            {!isCollapsed ? "© 2024 Pegrio Inc." : "©24"}
           </div>
         </div>
       </div>

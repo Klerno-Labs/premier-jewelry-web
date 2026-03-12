@@ -29,7 +29,7 @@ export default function ResetPasswordPage() {
   } = useForm<ResetPasswordInput>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
-      password: &quot;",
+      password: "",
       confirmPassword: "",
     },
   });
@@ -171,7 +171,7 @@ export default function ResetPasswordPage() {
                     Updating...
                   </>
                 ) : (
-                  &quot;Update password"
+                  "Update password"
                 )}
               </Button>
             </form>

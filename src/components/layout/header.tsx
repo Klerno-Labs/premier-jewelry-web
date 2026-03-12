@@ -28,7 +28,7 @@ export function Header({ onMenuClick, title }: HeaderProps) {
       </Button>
 
       <div className="flex-1">
-        <h1 className="text-lg font-semibold">{title || &quot;Dashboard"}</h1>
+        <h1 className="text-lg font-semibold">{title || "Dashboard"}</h1>
       </div>
 
       <div className="flex items-center gap-4">

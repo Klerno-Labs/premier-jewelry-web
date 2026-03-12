@@ -17,10 +17,10 @@ const projects = [
 
 const getStatusBadge = (status: string) => {
   switch (status) {
-    case &quot;Completed": return <Badge variant="success">{status}</Badge>;
-    case &quot;In Progress": return <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-200">{status}</Badge>;
-    case &quot;At Risk": return <Badge variant="destructive">{status}</Badge>;
-    case &quot;Review": return <Badge variant="warning">{status}</Badge>;
+    case "Completed": return <Badge variant="success">{status}</Badge>;
+    case "In Progress": return <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-200">{status}</Badge>;
+    case "At Risk": return <Badge variant="destructive">{status}</Badge>;
+    case "Review": return <Badge variant="warning">{status}</Badge>;
     default: return <Badge variant="outline">{status}</Badge>;
   }
 };

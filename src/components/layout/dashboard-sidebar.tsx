@@ -42,7 +42,7 @@ export function DashboardSidebar() {
           variant="ghost"
           size="icon"
           onClick={() => setCollapsed(!collapsed)}
-          className="ml-auto h-8 w-8&quot;
+          className="ml-auto h-8 w-8"
           aria-label={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
         >
           {collapsed ? (

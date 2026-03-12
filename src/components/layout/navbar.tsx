@@ -21,7 +21,7 @@ export default function Navbar() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener(&quot;scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -74,7 +74,7 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-gray-600&quot;
+            className="md:hidden p-2 text-gray-600"
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
             {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -96,7 +96,7 @@ export default function Navbar() {
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-2xl font-semibold text-gray-900 hover:text-primary transition-colors&quot;
+                className="text-2xl font-semibold text-gray-900 hover:text-primary transition-colors"
               >
                 {link.name}
               </a>
@@ -113,7 +113,7 @@ export default function Navbar() {
             <a
               href="#contact"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="block w-full bg-gray-900 text-white text-center px-5 py-3.5 rounded-lg font-medium hover:bg-gray-800 transition-colors&quot;
+              className="block w-full bg-gray-900 text-white text-center px-5 py-3.5 rounded-lg font-medium hover:bg-gray-800 transition-colors"
             >
               Get Started
             </a>

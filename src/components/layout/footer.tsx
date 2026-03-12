@@ -5,7 +5,7 @@ import { Facebook, Twitter, Linkedin, Instagram, ArrowUp, Mail, Phone, MapPin } 
 
 export default function Footer() {
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: &quot;smooth" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
