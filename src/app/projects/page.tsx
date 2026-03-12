@@ -62,7 +62,7 @@ const projectsData = [
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case "Active":
+    case &quot;Active":
       return "default";
     case "Completed":
       return "success";

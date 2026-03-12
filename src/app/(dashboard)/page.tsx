@@ -48,10 +48,10 @@ const recentProjects = [
 
 const getStatusBadge = (status: string) => {
   switch (status) {
-    case "Completed": return <Badge variant="success">{status}</Badge>;
-    case "In Progress": return <Badge variant="default">{status}</Badge>;
-    case "At Risk": return <Badge variant="destructive">{status}</Badge>;
-    case "Review": return <Badge variant="warning">{status}</Badge>;
+    case &quot;Completed": return <Badge variant="success">{status}</Badge>;
+    case &quot;In Progress": return <Badge variant="default">{status}</Badge>;
+    case &quot;At Risk": return <Badge variant="destructive">{status}</Badge>;
+    case &quot;Review": return <Badge variant="warning">{status}</Badge>;
     default: return <Badge variant="outline">{status}</Badge>;
   }
 };
@@ -129,7 +129,7 @@ export default function DashboardOverview() {
                 <CheckCircle2 className="h-4 w-4 text-indigo-600" />
               </div>
               <div>
-                <p className="text-sm font-medium">Project "Mobile App" completed</p>
+                <p className="text-sm font-medium">Project &quot;Mobile App" completed</p>
                 <p className="text-xs text-muted-foreground">2 hours ago</p>
               </div>
             </div>

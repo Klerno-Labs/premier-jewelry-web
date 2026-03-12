@@ -25,7 +25,7 @@ export default function ForgotPasswordPage() {
   } = useForm<ForgotPasswordInput>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
-      email: "",
+      email: &quot;",
     },
   });
 
@@ -103,7 +103,7 @@ export default function ForgotPasswordPage() {
                     Sending...
                   </>
                 ) : (
-                  "Send reset link"
+                  &quot;Send reset link"
                 )}
               </Button>
 

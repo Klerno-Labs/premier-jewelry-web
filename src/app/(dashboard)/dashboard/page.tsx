@@ -8,7 +8,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge"; // Assuming badge component or creating inline
-import {
   TrendingUp,
   Users,
   DollarSign,

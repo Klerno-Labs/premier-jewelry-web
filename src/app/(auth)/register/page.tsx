@@ -38,7 +38,7 @@ export default function RegisterPage() {
       </CardContent>
       <CardFooter>
         <p className="text-sm text-center w-full text-gray-600">
-          Already have an account?{" "}
+          Already have an account?{&quot; "}
           <Link href="/login" className="text-indigo-600 hover:underline font-medium">
             Sign in
           </Link>

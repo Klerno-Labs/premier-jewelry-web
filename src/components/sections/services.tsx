@@ -10,21 +10,21 @@ const SERVICES = [
     title: "Strategic Consulting",
     description: "Navigate complex business landscapes with our data-driven roadmap planning and market analysis.",
     icon: <Lightbulb className="h-8 w-8 text-blue-600" />,
-    image: images["service-1"],
+    image: images[&quot;service-1"],
     link: "#contact"
   },
   {
     title: "Digital Transformation",
     description: "Modernize your operations with cutting-edge technology integration and workflow automation.",
     icon: <BarChart className="h-8 w-8 text-blue-600" />,
-    image: images["service-2"],
+    image: images[&quot;service-2"],
     link: "#contact"
   },
   {
     title: "Brand Development",
     description: "Craft a compelling narrative and visual identity that resonates with your target audience.",
     icon: <Users className="h-8 w-8 text-blue-600" />,
-    image: images["service-3"],
+    image: images[&quot;service-3"],
     link: "#contact"
   }
 ];

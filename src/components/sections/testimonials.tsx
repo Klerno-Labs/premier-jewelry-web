@@ -59,7 +59,7 @@ export default function Testimonials() {
                   <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                 ))}
               </div>
-              <p className="text-gray-700 mb-6 italic leading-relaxed">"{testimonial.content}"</p>
+              <p className="text-gray-700 mb-6 italic leading-relaxed">"{testimonial.content}&quot;</p>
               <div className="flex items-center gap-4">
                 <div className="h-12 w-12 rounded-full bg-gray-200 overflow-hidden">
                      <Image

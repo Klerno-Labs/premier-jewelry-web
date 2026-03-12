@@ -31,7 +31,7 @@ export default function Contact() {
     if (formData._gotcha) return;
 
     if (!formData.name || !formData.email || !formData.message) {
-      setError("Please fill in all required fields.");
+      setError(&quot;Please fill in all required fields.");
       return;
     }
     if (!validateEmail(formData.email)) {
@@ -234,7 +234,7 @@ export default function Contact() {
                       Sending...
                     </>
                   ) : (
-                    "Send Message"
+                    &quot;Send Message"
                   )}
                 </button>
               </div>
