@@ -2,14 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge"; // Inline fallback needed if not created
 import { Input } from "@/components/ui/input";
 import { Search, MoreHorizontal, UserPlus, Trash2 } from "lucide-react";
