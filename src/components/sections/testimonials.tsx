@@ -39,7 +39,7 @@ export default function Testimonials() {
             Trusted by Industry Leaders
           </h2>
           <p className="text-lg text-gray-600">
-            Don't just take our word for it. Here is what our partners have to say about working with Pegrio.
+            Don&apos;t just take our word for it. Here is what our partners have to say about working with Pegrio.
           </p>
         </div>
 

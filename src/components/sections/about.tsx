@@ -62,10 +62,10 @@ export default function About() {
               Built on a Foundation of Excellence
             </h2>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              Founded in 2020, Pegrio emerged from a simple idea: businesses shouldn't have to choose between growth and stability. We are a team of seasoned consultants, creatives, and technologists dedicated to solving your toughest challenges.
+              Founded in 2020, Pegrio emerged from a simple idea: businesses shouldn&apos;t have to choose between growth and stability. We are a team of seasoned consultants, creatives, and technologists dedicated to solving your toughest challenges.
             </p>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-              Our approach is holistic. We don't just offer advice; we roll up our sleeves and work alongside you to implement strategies that deliver measurable ROI. From Houston to the global market, we are your partners in progress.
+              Our approach is holistic. We don&apos;t just offer advice; we roll up our sleeves and work alongside you to implement strategies that deliver measurable ROI. From Houston to the global market, we are your partners in progress.
             </p>
             
             <ul className="space-y-4 mb-8">

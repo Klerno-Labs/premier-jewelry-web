@@ -79,7 +79,7 @@ export default function Contact() {
               <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
             <h3 className="text-2xl font-bold text-gray-900 mb-2">Message Sent!</h3>
-            <p className="text-gray-600">Thank you for reaching out. We'll be in touch within 24 hours.</p>
+            <p className="text-gray-600">Thank you for reaching out. We&apos;ll be in touch within 24 hours.</p>
           </motion.div>
         </div>
       </section>
@@ -98,7 +98,7 @@ export default function Contact() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 mb-6">
-              Let's Start a Conversation
+              Let&apos;s Start a Conversation
             </h2>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
               Ready to take your business to the next level? Fill out the form and our team will get back to you promptly.
